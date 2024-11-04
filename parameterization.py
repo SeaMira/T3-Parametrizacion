@@ -68,8 +68,6 @@ def uniform_laplacian(mesh):
     W = lil_matrix((n,n), dtype=float) #Se crea una matriz dispersa de n x n
     print(W.shape)
 
-    points = mesh.points() #Se obtienen las coordenadas de los vértices de la malla
-
     #Para cada vertice de la malla
     for i,v in enumerate(mesh.vertices()):
         f_it = openmesh.VertexFaceIter(mesh, v) #Se obtienen las caras que comparten el vértice v
@@ -80,9 +78,10 @@ def uniform_laplacian(mesh):
                 if vv.idx()!=i:
                     L.append(vv.idx())
             j = L[0]
+            k = L[1]
 
-            #Se acumulan los cotangentes para las aristas ij e ik
             W[i,j] = 1
+            W[i,k] = 1
             
     
     #Se suman todas las filas de la matriz W y se calcula la inversa de cada suma
